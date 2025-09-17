@@ -3,11 +3,14 @@ const userController = require("../controllers/userController");
 
 const userRouter = express.Router();
 
-userRouter.get("/allUsers", userController.getAllUsers);
-userRouter.post("/signup", userController.signup);         // ✅ should be POST
-userRouter.post("/login", userController.login);           // ✅ should be POST
-userRouter.get("/userProfile/:id", userController.getUserProfile);
-userRouter.put("/updateProfile/:id", userController.updateUserProfile);  // ✅ should be PUT
-userRouter.delete("/deleteProfile/:id", userController.deleteUserProfile); // ✅ should be DELETE
+// ✅ Auth routes
+userRouter.post("/signup", userController.signup);   // Sign up new user
+userRouter.post("/login", userController.login);     // Login existing user
+
+// ✅ User profile routes
+userRouter.get("/all", userController.getAllUsers); // Fetch all users
+userRouter.get("/:id", userController.getUserProfile); // Get profile by user ID
+userRouter.put("/:id", userController.updateUserProfile); // Update user profile
+userRouter.delete("/:id", userController.deleteUserProfile); // Delete user
 
 module.exports = userRouter;
