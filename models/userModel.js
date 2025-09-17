@@ -1,42 +1,46 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const UserSchema = new Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique:true,
-  },
-  password: {
-    type:String,
-  },
-  repositories:[
-    {
-        default: [],
-        type: Schema.Types.ObjectId,
-        ref:"Repository",
+const UserSchema = new Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true, // removes spaces
     },
-  ],
-  followedUsers:[
-    {
-        default: [],
-        type: Schema.Types.ObjectId,
-        ref:"Users",
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true, // normalize email
     },
-  ],
-  starRepos:[
-    {
-        default: [],
-        type: Schema.Types.ObjectId,
-        ref:"Repository",
+    password: {
+      type: String,
+      required: true,
+      minlength: 6, // basic validation
     },
-  ],
-});
+    repositories: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Repository",
+      },
+    ],
+    followedUsers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User", // ✅ not "Users"
+      },
+    ],
+    starRepos: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Repository",
+      },
+    ],
+  },
+  { timestamps: true } // adds createdAt & updatedAt
+);
 
 const User = mongoose.model("User", UserSchema);
 
